@@ -55,6 +55,7 @@
 					$('#album-info-button').click(Gallery.showInfo);
 					$('#sort-name-button').click(Gallery.sorter);
 					$('#sort-date-button').click(Gallery.sorter);
+					$('#sort-exif-button').click(Gallery.sorter);
 					$('#save #save-button').click(Gallery.showSaveForm);
 					$('.save-form').submit(Gallery.saveForm);
 				}
@@ -113,16 +114,18 @@
 		/**
 		 * Manages the sorting interface
 		 *
-		 * @param {string} sortType name or date
+		 * @param {string} sortType name, date, or exif
 		 * @param {string} sortOrder asc or des
 		 */
 		sortControlsSetup: function (sortType, sortOrder) {
-			var reverseSortType = 'date';
-			if (sortType === 'date') {
-				reverseSortType = 'name';
+			var SortTypes = ['date', 'name', 'exif'];
+			for (var key in SortTypes) {				
+				if (SortTypes[key] === sortType) {
+					this._setSortButton(SortTypes[key], sortOrder, true);
+				} else {
+					this._setSortButton(SortTypes[key], 'asc', false); // default icon
+				}
 			}
-			this._setSortButton(sortType, sortOrder, true);
-			this._setSortButton(reverseSortType, 'asc', false); // default icon
 		},
 
 		/**

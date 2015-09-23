@@ -109,6 +109,10 @@
 				sortType = 'date';
 
 			}
+			if (this.id === 'sort-exif-button') {
+				sortType = 'exif';
+
+			}
 			var currentSort = Gallery.config.albumSorting;
 			if (currentSort.type === sortType && currentSort.order === sortOrder) {
 				sortOrder = 'des';
@@ -286,6 +290,7 @@
 			$('#share-button').hide();
 			$('#sort-name-button').hide();
 			$('#sort-date-button').hide();
+			$('#sort-exif-button').hide();
 		},
 
 		/**
@@ -398,6 +403,7 @@
 			var fileId = null;
 			var mimeType = null;
 			var mTime = null;
+			var exifTime = null;
 			var etag = null;
 			var albumInfo = data.albuminfo;
 			var currentLocation = albumInfo.path;
@@ -413,9 +419,10 @@
 					fileId = files[i].fileid;
 					mimeType = files[i].mimetype;
 					mTime = files[i].mtime;
+					exifTime = files[i].exiftime;
 					etag = files[i].etag;
 
-					image = new GalleryImage(path, path, fileId, mimeType, mTime, etag);
+					image = new GalleryImage(path, path, fileId, mimeType, mTime, exifTime, etag);
 
 					// Determines the folder name for the image
 					var dir = OC.dirname(path);

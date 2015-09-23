@@ -9,15 +9,17 @@
 	 * @param fileId
 	 * @param mimeType
 	 * @param mTime modification time
+	 * @param exifTime Time extracted from EXIF info
 	 * @param etag
 	 * @constructor
 	 */
-	var GalleryImage = function (src, path, fileId, mimeType, mTime, etag) {
+	var GalleryImage = function (src, path, fileId, mimeType, mTime, exifTime, etag) {
 		this.src = src;
 		this.path = path;
 		this.fileId = fileId;
 		this.mimeType = mimeType;
 		this.mTime = mTime;
+		this.exifTime = exifTime;
 		this.etag = etag;
 		this.thumbnail = null;
 		this.domDef = null;

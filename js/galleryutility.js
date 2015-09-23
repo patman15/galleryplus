@@ -175,7 +175,7 @@
 		},
 
 		/**
-		 * Sorts arrays based on name or date
+		 * Sorts arrays based on name, date or exif
 		 *
 		 * @param {string} sortType
 		 * @param {string} sortOrder
@@ -183,29 +183,43 @@
 		 * @returns {Function}
 		 */
 		sortBy: function (sortType, sortOrder) {
-			if (sortType === 'name') {
-				if (sortOrder === 'asc') {
-					//sortByNameAsc
+			switch (sortType) {
+				case "name":
+					if (sortOrder === 'asc') {
+						//sortByNameAsc
+						return function (a, b) {
+							return OC.Util.naturalSortCompare(a.path, b.path);
+						};
+					}
+					//sortByNameDes
 					return function (a, b) {
-						return OC.Util.naturalSortCompare(a.path, b.path);
+						return -OC.Util.naturalSortCompare(a.path, b.path);
 					};
-				}
-				//sortByNameDes
-				return function (a, b) {
-					return -OC.Util.naturalSortCompare(a.path, b.path);
-				};
-			}
-			if (sortType === 'date') {
-				if (sortOrder === 'asc') {
-					//sortByDateAsc
+					break;
+				case "date":
+					if (sortOrder === 'asc') {
+						//sortByDateAsc
+						return function (a, b) {
+							return b.mTime - a.mTime;
+						};
+					}
+					//sortByDateDes
 					return function (a, b) {
-						return b.mTime - a.mTime;
+						return a.mTime - b.mTime;
 					};
-				}
-				//sortByDateDes
-				return function (a, b) {
-					return a.mTime - b.mTime;
-				};
+					break;
+				case "exif":
+					if (sortOrder === 'asc') {
+						//sortByEXIFAsc
+						return function (a, b) {
+							return b.exifTime - a.exifTime;
+						};
+					}
+					//sortByEXIFDes
+					return function (a, b) {
+						return a.exifTime - b.exifTime;
+					};
+					break;
 			}
 		}
 	};

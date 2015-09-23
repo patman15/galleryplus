@@ -28,6 +28,14 @@
 	border-right-color: rgb(213, 213, 213);
 }
 
+#controls .button.middle-switch-button {
+	float: right;
+	display: inline;
+	border-radius: 0 0 0 0;
+	margin-left: -1px;
+	margin-right: 0;
+}
+
 #controls .button.right-switch-button {
 	float: right;
 	display: inline;
@@ -37,7 +45,8 @@
 
 #share-button img,
 .button.left-switch-button img,
-.button.right-switch-button img {
+.button.right-switch-button img,
+.button.middle-switch-button img {
 	vertical-align: -3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);

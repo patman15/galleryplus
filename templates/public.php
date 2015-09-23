@@ -116,6 +116,19 @@ style(
 							); ?>" alt="<?php p($l->t('Sort by date')); ?>"/>
 						</div>
 					</div>
+					<?php
+					if (is_callable('exif_read_data')) {
+						?>                    
+						<div id="sort-exif-button" class="button sorting middle-switch-button">
+							<div class="flipper">
+								<img class="svg asc front" src="<?php print_unescaped(
+									image_path($_['appName'], 'exifasc.svg')
+								); ?>" alt="<?php p($l->t('Sort by EXIF')); ?>"/>
+								<img class="svg des back" src="<?php print_unescaped(
+									image_path($_['appName'], 'exifdesc.svg')); ?>"/>
+							</div>
+						</div>
+					<?php } ?>                        
 					<div id="sort-name-button" class="button sorting left-switch-button">
 						<div class="flipper">
 							<img class="svg asc front" src="<?php print_unescaped(

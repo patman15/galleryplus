@@ -12,6 +12,7 @@
 
 namespace OCA\GalleryPlus\Service;
 
+use OCP\Files\Storage;
 use OCP\Files\Folder;
 use OCP\Files\File;
 
@@ -197,18 +198,31 @@ class SearchMediaService extends FilesService {
 	 * @param File $file
 	 */
 	private function addFileToResults($file) {
+		$exif = false;
 		$imagePath = $this->environment->getPathFromVirtualRoot($file);
 		$imageId = $file->getId();
 		$mimeType = $file->getMimetype();
 		$mTime = $file->getMTime();
 		$etag = $file->getEtag();
 
+		if (is_callable('exif_read_data')) {
+			$localpath = $file->getStorage()->getLocalFile($file->getInternalPath());
+			if (file_exists($localpath) && ($mimeType === 'image/jpeg' || $mimeType === 'image/tiff')) {
+				$exif = @exif_read_data($localpath, 'IFD0')['DateTime'];
+				// we could also use a data stream (fopen) and paste parts of the file into the function.
+				// This would avoid all path conversions and be more portable for external storage
+				// exif_read_data("data://image/jpeg;base64," . base64_encode($imageString))
+				$this->logger->debug("Found EXIF date {date} for : {lpath}", ['date' => $exif, 'lpath' => $localpath]);
+			}
+		}
+
 		$imageData = [
 			'path'     => $imagePath,
 			'fileid'   => $imageId,
 			'mimetype' => $mimeType,
 			'mtime'    => $mTime,
-			'etag'     => $etag
+			'etag'     => $etag,
+			'exiftime' => strtotime($exif),
 		];
 
 		$this->images[] = $imageData;
